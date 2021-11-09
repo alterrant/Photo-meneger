@@ -5,7 +5,7 @@ import {Photos} from "./Components/Photos/Photos";
 import {SelectedPhoto} from "./Components/SelectedPhoto/SelectedPhoto";
 import {useState} from "react";
 
-// TODO make personalise pictures and h1 description
+// make personalise pictures and h1 description
 
 function App() {
 
