@@ -12,8 +12,29 @@ const ContactForm = (props) => {
       </form>
   )
 }
+
 const ContactFormRedux = reduxForm({
   form: 'signUp'
 })(ContactForm)
+
+/*const ComponentLoginForm = ({handleSubmit, buttonText, formName}) => {
+  const ComponentForm = () => {
+    return (
+        <form onSubmit={handleSubmit}>
+          <Field component={'input'} placeholder={'Email'} name={'email'}/>
+          <Field component={'input'} placeholder={'Password'} name={'password'} type={'password'}/>
+          <div>
+            <button type="submit">{buttonText}</button>
+          </div>
+        </form>
+    )
+  }
+
+  const ReduxFormComponent = () => {
+    return reduxForm({form: formName})(ComponentForm)
+  }
+
+}*/
+
 
 export default ContactFormRedux;

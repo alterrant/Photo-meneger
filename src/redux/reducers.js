@@ -1,8 +1,9 @@
 import {reducer as formReducer} from 'redux-form';
 import {combineReducers} from "redux";
+import initialiseApp from "./initialiseApp";
 
 const reducers = {
-  // ... your other reducers here ...
+  initialiseApp: initialiseApp,
   form: formReducer
 }
 export const reducer = combineReducers(reducers);

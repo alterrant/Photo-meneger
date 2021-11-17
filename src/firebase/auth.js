@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+/*import firebase from 'firebase';
 import firebaseui from 'firebaseui';
 
 // Initialize the FirebaseUI Widget using Firebase.
@@ -9,8 +9,8 @@ ui.start('#firebaseui-auth-container', {
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
   // Other config options...
-});
-
+});*/
+/*
 var uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
@@ -41,6 +41,6 @@ var uiConfig = {
   tosUrl: '<your-tos-url>',
   // Privacy policy url.
   privacyPolicyUrl: '<your-privacy-policy-url>'
-};
+};*/
 
-ui.start('#firebaseui-auth-container', uiConfig);
+//ui.start('#firebaseui-auth-container', uiConfig);

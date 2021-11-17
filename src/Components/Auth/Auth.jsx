@@ -1,15 +1,15 @@
 import SignUp from "./Sign up/SignUp";
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut} from "firebase/auth";
 import SignIn from "./Sign in/SignIn";
-import {useState} from "react";
+//import SignOut from "./Sign out/SignOut";
+import LogOut from "./Sign out/SignOut";
 
 export const Auth = ({currentUser, setCurrentUser}) => {
 
+  const auth = getAuth();
+
   const signUp = async ({email, password}) => {
     try {
-
-      const auth = getAuth();
-
       const signUpUser = await createUserWithEmailAndPassword(auth, email, password);
       const signedUpUser = signUpUser.user;
 
@@ -22,39 +22,34 @@ export const Auth = ({currentUser, setCurrentUser}) => {
   }
 
   const signIn = async ({email, password}) => {
-    const auth = getAuth();
-
     try {
+      debugger
       const signInUser = await signInWithEmailAndPassword(auth, email, password);
       const signedInUser = signInUser.user;
-
+      setCurrentUser(auth.currentUser)
     } catch (error) {
 
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorMessage);
     }
-
-    //наблюдатель за пользователем
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        setCurrentUser(uid)
-        // ...
-      } else {
-        // User is signed out
-        // ...
-      }
-    });
   }
 
+ /* const signOut = async () => {
+    try {
+      debugger
+      await signOut(auth);
+    } catch(error) {
+      console.log(error)
+    }
+  }*/
+//need refactor
   return (
       <>
         <SignUp onSubmit={signUp}/>
         <SignIn onSubmit={signIn}/>
+        {/*<SignOut onSubmit={signOut}/>*/}
+        <LogOut/>
       </>
   )
 }
