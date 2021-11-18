@@ -1,19 +1,21 @@
 import React from 'react';
-import {getAuth, signOut} from "firebase/auth";
+import {setAuthOut} from "../../../redux/authReducer";
+import {connect} from "react-redux";
+import {logOut} from "../../../firebase/auth";
+import {getAuth} from "firebase/auth";
 
-const logOut = async () => {
-  try {
+const LogOut = ({setAuthOut}) => {
+
+  const handleLogOut = () => {
     const auth = getAuth();
-    await signOut(auth);
-  } catch(error) {
-    console.log(error)
+    console.log(auth)
+    logOut();
+    setAuthOut();
   }
-}
 
-const LogOut = () => {
   return (
-      <button onClick={logOut}>Sign Out</button>
+      <button onClick={handleLogOut}>Sign Out</button>
   )
 }
 
-export default LogOut;
+export default connect(null, {setAuthOut})(LogOut);

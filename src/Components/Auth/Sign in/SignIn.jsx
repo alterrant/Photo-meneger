@@ -1,12 +1,19 @@
-import React, {Component, ReactPropTypes as PropTypes} from 'react';
-import {reduxForm, Field} from 'redux-form';
+import React from 'react';
+import {Field, reduxForm} from 'redux-form';
 import {connect} from "react-redux";
-import {setInitializeSuccess} from "../../../redux/initialiseApp";
+import {setAuthUser} from "../../../redux/authReducer";
+import {signIn} from "../../../firebase/auth";
 
 const SignInForm = (props) => {
 
+  const signInFunc = async ({email, password}) => {
+    //плохо, что функция отправляет запрос на сервер и возвращает юзера
+    const signedUser = await signIn({email, password});
+    props.setAuthUser(signedUser);
+  }
+
   return (
-      <form onSubmit={props.handleSubmit}>
+      <form onSubmit={props.handleSubmit(signInFunc)}>
         <Field component={'input'} placeholder={'Email'} name={'email'}/>
         <Field component={'input'} placeholder={'Password'} name={'password'} type={'password'}/>
         <div>
@@ -19,10 +26,4 @@ const SignInFormRedux = reduxForm({
   form: 'signIn'
 })(SignInForm)
 
-/*const mapStateToProps = (state) => {
-  return (
-
-  )
-}*/
-
-export default connect(null, {setInitializeSuccess})(SignInFormRedux);
+export default connect(null, {setAuthUser})(SignInFormRedux);

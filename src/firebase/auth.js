@@ -1,3 +1,12 @@
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+} from "firebase/auth";
+import {setAuth} from "../redux/authReducer";
+
 /*import firebase from 'firebase';
 import firebaseui from 'firebaseui';
 
@@ -44,3 +53,73 @@ var uiConfig = {
 };*/
 
 //ui.start('#firebaseui-auth-container', uiConfig);
+
+
+export const signIn = async ({email, password}) => {
+  try {
+    debugger
+    const auth = getAuth();
+
+    const signInUser = await signInWithEmailAndPassword(auth, email, password);
+    const signedInUser = signInUser.user;
+
+    return signedInUser;
+
+  } catch (error) {
+
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorMessage);
+  }
+}
+
+
+export const signUp = async ({email, password}) => {
+  try {
+    const auth = getAuth();
+
+    const signUpUser = await createUserWithEmailAndPassword(auth, email, password);
+    const signedUpUser = signUpUser.user;
+
+  } catch (error) {
+
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorMessage);
+  }
+}
+
+export const logOut = async () => {
+  try {
+    const auth = getAuth();
+    await signOut(auth);
+
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+//Getting profile info
+export const authUserProfile = (auth) => {
+  debugger
+  const user = auth.currentUser;
+
+  if (user !== null) {
+    return {
+      displayName: user.displayName,
+      email: user.email,
+      photoUrl: user.photoURL,
+      emailVerified: user.emailVerified,
+      uid: user.uid
+    }
+  }
+}
+
+//срабатывает до инициализации
+export const authUpdater = async () => {
+  const auth = getAuth();
+console.log(auth)
+  onAuthStateChanged(auth, (user) => {
+    return user;
+  })
+}
