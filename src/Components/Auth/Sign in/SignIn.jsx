@@ -9,7 +9,7 @@ const SignInForm = (props) => {
   const signInFunc = async ({email, password}) => {
     //плохо, что функция отправляет запрос на сервер и возвращает юзера
     const signedUser = await signIn({email, password});
-    props.setAuthUser(signedUser);
+    signedUser && props.setAuthUser(signedUser);
   }
 
   return (
