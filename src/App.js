@@ -3,22 +3,31 @@ import UserTitile from "./Components/UserTitile/UserTitile";
 import {PhotoLoader} from "./Components/PhotoLoader/PhotoLoader";
 import {Photos} from "./Components/Photos/Photos";
 import {SelectedPhoto} from "./Components/SelectedPhoto/SelectedPhoto";
-import {useState} from "react";
-//import {Auth} from "./Components/Auth/Auth";
+import {useEffect, useState} from "react";
 import Auth from "./Components/Auth/Auth";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import LogOut from "./Components/Auth/Sign out/SignOut";
 import {connect} from "react-redux";
 import {initialize} from "./redux/initialiseApp"
+import Preloader from "./Components/common/Preloader/Preloader";
 
-function App({isAuth, initialize}) {
+function App({isAuth, isInit, initialize}) {
 
   let [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
 
-  initialize();
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        initialize(user);
+      } else {
+        initialize(user);
+      }
+    })
+  }, [])
 
-  return (
+  if (!isInit) return <Preloader/>
+  else return (
       <>
         {
           isAuth ?
@@ -38,7 +47,8 @@ function App({isAuth, initialize}) {
 
 const mapStateToProps = (state) => {
   return {
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    isInit: state.initialiseApp.isInitialized
   }
 }
 

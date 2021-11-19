@@ -19,7 +19,7 @@ const deletePhoto = async (imageName, imageFirebaseId) => {
 }
 
 export const CloseSvg = ({fileName, imageId}) => {
-debugger
+
   return (
       <motion.svg onClick={() => deletePhoto(fileName, imageId)}
                   className='delete-picture'

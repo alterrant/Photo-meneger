@@ -9,7 +9,7 @@ export const Photo = ({setSelectedPhoto, doc}) => {
         if (b.addedTime && a.addedTime) return b.addedTime.seconds - a.addedTime.seconds
       })
       .map(item => {
-        debugger
+
         return <motion.li
             className='image-wrapper'
             key={item.id}

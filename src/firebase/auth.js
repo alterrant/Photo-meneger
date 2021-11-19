@@ -57,7 +57,6 @@ var uiConfig = {
 
 export const signIn = async ({email, password}) => {
   try {
-    debugger
     const auth = getAuth();
 
     const signInUser = await signInWithEmailAndPassword(auth, email, password);
@@ -101,7 +100,7 @@ export const logOut = async () => {
 
 //Getting profile info
 export const authUserProfile = (auth) => {
-  debugger
+
   const user = auth.currentUser;
 
   if (user !== null) {
@@ -113,13 +112,4 @@ export const authUserProfile = (auth) => {
       uid: user.uid
     }
   }
-}
-
-//срабатывает до инициализации
-export const authUpdater = async () => {
-  const auth = getAuth();
-console.log(auth)
-  onAuthStateChanged(auth, (user) => {
-    return user;
-  })
 }
