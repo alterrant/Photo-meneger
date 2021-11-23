@@ -26,7 +26,7 @@ const authReducer = (state = initState, action) => {
         authUserProfile: {
           displayName: null,
           email: null,
-          photoURL: null,
+          photoURL:   null,
           emailVerified: null
         }
       }

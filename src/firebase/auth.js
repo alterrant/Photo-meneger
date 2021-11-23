@@ -3,8 +3,13 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  signInWithRedirect,
+  getRedirectResult
 } from "firebase/auth";
+import {GoogleAuthProvider} from "firebase/auth";
+import {GithubAuthProvider} from "firebase/auth";
+
 import {setAuth} from "../redux/authReducer";
 
 /*import firebase from 'firebase';
@@ -54,6 +59,19 @@ var uiConfig = {
 
 //ui.start('#firebaseui-auth-container', uiConfig);
 
+export const logInGitHub = async () => {
+  const providerGitHub = new GithubAuthProvider();
+  const auth = getAuth();
+
+  await signInWithRedirect(auth, providerGitHub);
+}
+
+export const logInGoogle = async () => {
+  const providerGoogle = new GoogleAuthProvider();
+  const auth = getAuth();
+
+  await signInWithRedirect(auth, providerGoogle);
+};
 
 export const signIn = async ({email, password}) => {
   try {
@@ -71,7 +89,6 @@ export const signIn = async ({email, password}) => {
     console.log(errorMessage);
   }
 }
-
 
 export const signUp = async ({email, password}) => {
   try {
@@ -93,7 +110,7 @@ export const logOut = async () => {
     const auth = getAuth();
     await signOut(auth);
 
-  } catch(error) {
+  } catch (error) {
     console.log(error)
   }
 }
