@@ -43,7 +43,7 @@ const SignInForm = (props) => {
             </motion.div>
           </div>
           <div className="auth-input-label">
-            Username
+            Email
           </div>
           <Field className="auth-input" component={'input'} name={'email'}/>
           <div className="auth-input-label">
