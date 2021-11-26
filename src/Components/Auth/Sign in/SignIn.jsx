@@ -80,7 +80,7 @@ const SignInForm = (props) => {
   )
 }
 const SignInFormRedux = reduxForm({
-  form: 'signIn',
+  form: 'signInForm',
   validate
 })(SignInForm)
 

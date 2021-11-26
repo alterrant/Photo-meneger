@@ -1,14 +1,15 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
-import {signUp} from "../../../firebase/auth";
 import {motion} from "framer-motion";
 import {inputLoginForm} from "../../common/FormControl/input";
 import {validate} from "../../common/FormControl/validators";
+import {connect} from "react-redux";
+import {signUp} from "../../../redux/authReducer";
 
 const ContactForm = (props) => {
 
   return (<>
-        <form className="auth-form-container" onSubmit={props.handleSubmit(signUp)}>
+        <form className="auth-form-container" onSubmit={props.handleSubmit(props.signUp)}>
 
           <span className="auth-form-title">
 						Sign up
@@ -21,6 +22,11 @@ const ContactForm = (props) => {
             Password
           </div>
           <Field className="auth-input" component={inputLoginForm} name={'password'} type={'password'}/>
+          <div className="form-error-wrapper">
+            <div className="form-error">
+              {props.error}
+            </div>
+          </div>
           <div className="auth-submit-container">
             <motion.button className="auth-submit-button"
                            type="submit"
@@ -47,8 +53,8 @@ const ContactForm = (props) => {
   )
 }
 const ContactFormRedux = reduxForm({
-  form: 'signUp',
-  validate
+  form: 'signUpForm',
+  validate,
 })(ContactForm)
 
-export default ContactFormRedux;
+export default connect(null, {signUp})(ContactFormRedux);

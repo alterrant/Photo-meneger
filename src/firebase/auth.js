@@ -1,63 +1,12 @@
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
   signInWithRedirect,
-  getRedirectResult
 } from "firebase/auth";
 import {GoogleAuthProvider} from "firebase/auth";
 import {GithubAuthProvider} from "firebase/auth";
-
-import {setAuth} from "../redux/authReducer";
-
-/*import firebase from 'firebase';
-import firebaseui from 'firebaseui';
-
-// Initialize the FirebaseUI Widget using Firebase.
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-ui.start('#firebaseui-auth-container', {
-  signInOptions: [
-    firebase.auth.EmailAuthProvider.PROVIDER_ID
-  ],
-  // Other config options...
-});*/
-/*
-var uiConfig = {
-  callbacks: {
-    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-      // User successfully signed in.
-      // Return type determines whether we continue the redirect automatically
-      // or whether we leave that to developer to handle.
-      return true;
-    },
-    uiShown: function() {
-      // The widget is rendered.
-      // Hide the loader.
-      document.getElementById('loader').style.display = 'none';
-    }
-  },
-  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-  signInFlow: 'popup',
-  signInSuccessUrl: '<url-to-redirect-to-on-success>',
-  signInOptions: [
-    // Leave the lines as is for the providers you want to offer your users.
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID
-  ],
-  // Terms of service url.
-  tosUrl: '<your-tos-url>',
-  // Privacy policy url.
-  privacyPolicyUrl: '<your-privacy-policy-url>'
-};*/
-
-//ui.start('#firebaseui-auth-container', uiConfig);
 
 export const logInGitHub = async () => {
   const providerGitHub = new GithubAuthProvider();
@@ -90,22 +39,22 @@ export const signIn = async ({email, password}) => {
   }
 }
 
-export const signUp = async ({email, password}) => {
+export const signUpRequest = async ({email, password}) => {
+  const signedUpInfo = {};
   try {
     const auth = getAuth();
 
     const signUpUser = await createUserWithEmailAndPassword(auth, email, password);
-    const signedUpUser = signUpUser.user;
-
+    signedUpInfo.signedUpUser = signUpUser.user;
   } catch (error) {
-
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorMessage);
+    signedUpInfo.error = {};
+    signedUpInfo.error.errorCode = error.code;
+    signedUpInfo.error.errorMessage = error.message;
   }
+  return signedUpInfo;
 }
 
-export const logOut = async () => {
+export const logOutRequest = async () => {
   try {
     const auth = getAuth();
     await signOut(auth);
