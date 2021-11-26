@@ -169,12 +169,16 @@ li {
 
 .auth-content {
     width:100%;
-    max-width: 550px;
+    max-width: 750px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 18px;
     position: relative;
 
-    padding: 25px 70px 20px 70px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-right:clamp(50px, 8%, 100px);
+    padding-left: clamp(50px, 8%, 100px);
+
 }
 
 .auth-form-container {
@@ -184,7 +188,7 @@ li {
 .auth-form-title {
     display: block;
     font-family: Montserrat-Medium;
-    font-size: 39px;
+    font-size: 49px;
     color: #555555;
     line-height: 1.2;
     text-align: center;
@@ -194,27 +198,27 @@ li {
     margin-top: 10px;
     font-family: Montserrat-SemiBold;
     color: #555555;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.5;
     font-weight: 600;
 }
 
 .auth-input {
     width: 100%;
-    height: 25px;
+    height: 32px;
     padding: 0 7px;
     background-color: #e6f1fa;
     border: 1px solid gainsboro;
     border-radius: 7px;
     outline: none;
+    font-size: 15px;
 }
 
 .auth-submit-container {
     margin-top: 30px;
-    height: 34px;
+    height: 45px;
     width: 100%;
     display: flex;
-
 }
 
 .auth-submit-button {
@@ -227,8 +231,7 @@ li {
     border-radius: 7px;
 
     font-family: Poppins-Regular;
-    font-size: 20px;
-    line-height: 1.5;
+    font-size: 28px;
     cursor: pointer;
 }
 
@@ -237,7 +240,7 @@ li {
     display: flex;
     justify-content: center;
     font-family: Poppins-Regular;
-    font-size: 14px;
+    font-size: 18px;
     color: #999999;
     line-height: 1.5;
 }
@@ -250,7 +253,7 @@ li {
 .login-button-wrapper {
     display: flex;
     justify-content: space-between;
-    padding-top: 10px;
+    padding-top: 16px;
 }
 
 .login-button {
@@ -259,10 +262,10 @@ li {
     justify-content: center;
     align-items: center;
     width: 47%;
-    min-height: 34px;
+    min-height: 45px;
     border-radius: 7px;
     font-family: Poppins-Regular;
-    font-size: 20px;
+    font-size: 25px;
     line-height: 1.5;
 }
 
@@ -279,8 +282,8 @@ li {
 }
 
 .GitHubSVG {
-    margin-right: 1px;
-    min-width: 19px;
+    margin-right: 2px;
+    min-width: 26px;
     transition-duration: 0.4s;
     display: flex;
     justify-content: center;
@@ -289,15 +292,6 @@ li {
 .auth-github:hover .GitHubSVG {
   filter: drop-shadow( 0px 0px 1px rgba(31, 69, 112, 1));
 }
-
-/*
-.input-focused {
-    box-shadow: 0px 4px 8px 0px rgba(43, 125, 226, 0.44);
-}
-.input-error {
-    box-shadow: 0px 4px 8px 0px rgba(229, 42, 102, 0.44);
-}
-*/
 
 .input-focused {
     box-shadow: 0px 0px 8px 0px rgba(43, 125, 226, 0.44);

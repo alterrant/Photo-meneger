@@ -12,7 +12,7 @@ const SignUpForm = (props) => {
         <form className="auth-form-container" onSubmit={props.handleSubmit(props.signUp)}>
 
           <span className="auth-form-title">
-						Sign up
+            Sign up
           </span>
           <div className="auth-input-label">
             Username

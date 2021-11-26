@@ -7,8 +7,8 @@ export const inputLoginForm = ({input, meta, className}) => {
 
   return (
       <>
-        <div>
-          <motion.input className={classNameInput} {...input}/>
+        <div className="input-login-wrapper">
+          <input className={classNameInput} {...input}/>
           {conditionError &&
             <div className="error-text-wrapper">
               <div className="error-text-message">{meta.error}</div>
