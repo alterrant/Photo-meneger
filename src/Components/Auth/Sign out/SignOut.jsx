@@ -7,8 +7,6 @@ import {getAuth} from "firebase/auth";
 const LogOut = ({setAuthOut}) => {
 
   const handleLogOut = () => {
-    const auth = getAuth();
-    console.log(auth)
     logOut();
     setAuthOut();
   }

@@ -1,17 +1,17 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from "react-redux";
-import {setAuthUser} from "../../../redux/authReducer";
+import {logIn} from "../../../redux/authReducer";
 import {logInGitHub, logInGoogle, signIn} from "../../../firebase/auth";
 import GitHubSVG from "../../assets/SVG/GitHub";
 import {motion} from "framer-motion";
+import {inputLoginForm} from "../../common/FormControl/input";
+import {validate} from "../../common/FormControl/validators";
 
 const SignInForm = (props) => {
 
-  const signInFunc = async ({email, password}) => {
-    //плохо, что функция отправляет запрос на сервер и возвращает юзера
-    const signedUser = await signIn({email, password});
-    signedUser && props.setAuthUser(signedUser);
+  const signInFunc = ({email, password}) => {
+    props.logIn({email, password});
   }
 
   return (<>
@@ -45,11 +45,16 @@ const SignInForm = (props) => {
           <div className="auth-input-label">
             Email
           </div>
-          <Field className="auth-input" component={'input'} name={'email'}/>
+          <Field className="auth-input" component={inputLoginForm} name={'email'}/>
           <div className="auth-input-label">
             Password
           </div>
-          <Field className="auth-input" component={'input'} name={'password'} type={'password'}/>
+          <Field className="auth-input" component={inputLoginForm} name={'password'} type={'password'}/>
+          <div className="form-error-wrapper">
+            <div className="form-error">
+              {props.error}
+            </div>
+          </div>
           <div className="auth-submit-container">
             <motion.button className="auth-submit-button"
                            type="submit"
@@ -61,11 +66,10 @@ const SignInForm = (props) => {
               <p>Sign In</p>
             </motion.button>
           </div>
-
           <div className="auth-signUp">
             <p>
               Not a member? <motion.span className="auth-text-link"
-                                         onClick={props.logIn}
+                                         onClick={props.signUpForm}
                                          whileHover={{color: "rgb(78,65,113)"}}
             >
               Sign up now</motion.span>
@@ -76,7 +80,8 @@ const SignInForm = (props) => {
   )
 }
 const SignInFormRedux = reduxForm({
-  form: 'signIn'
+  form: 'signIn',
+  validate
 })(SignInForm)
 
-export default connect(null, {setAuthUser})(SignInFormRedux);
+export default connect(null, {logIn})(SignInFormRedux);

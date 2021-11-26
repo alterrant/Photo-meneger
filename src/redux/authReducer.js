@@ -1,3 +1,7 @@
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {signIn} from "../firebase/auth";
+import {stopSubmit} from "redux-form";
+
 const SET_AUTH_SUCCESS = "PHOTO_MANAGER/AUTH_REDUCER/SET_AUTH_SUCCESS";
 const SET_AUTH_OUT = "PHOTO_MANAGER/AUTH_REDUCER/SET_AUTH_OUT";
 const SET_AUTH_PROFILE = "PHOTO_MANAGER/AUTH_REDUCER/SET_AUTH_PROFILE";
@@ -40,6 +44,11 @@ export default authReducer;
 export const setAuthSuccess = () => ({type: SET_AUTH_SUCCESS});
 export const setAuthOut = () => ({type: SET_AUTH_OUT});
 export const setAuthProfile = (authProfile) => ({type: SET_AUTH_PROFILE, authProfile});
+
+export const logIn = ({email, password}) => async (dispatch) => {
+  const signedUser = await signIn({email, password});
+  signedUser ? dispatch(setAuthUser(signedUser)) : dispatch(stopSubmit("signIn", {_error: "Invalid email or password", email: "null", password: "null"}));
+}
 
 export const setAuthUser = (authProfile) => (dispatch) => {
   dispatch(setAuthSuccess());

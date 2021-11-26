@@ -9,8 +9,8 @@ export const AuthLoginList = () => {
 
   switch (state.authLogin) {
     case "signUp":
-      return <SignUp logIn={() => dispatch(setEmailPassLogin())}/>
+      return <SignUp signInForm={() => dispatch(setEmailPassLogin())}/>
     case "signInEmailPass":
-      return <SignIn logIn={() => dispatch(setSignUp())}/>;
+      return <SignIn signUpForm={() => dispatch(setSignUp())}/>;
   }
 }

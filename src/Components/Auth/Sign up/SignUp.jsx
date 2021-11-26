@@ -2,6 +2,8 @@ import React from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {signUp} from "../../../firebase/auth";
 import {motion} from "framer-motion";
+import {inputLoginForm} from "../../common/FormControl/input";
+import {validate} from "../../common/FormControl/validators";
 
 const ContactForm = (props) => {
 
@@ -14,11 +16,11 @@ const ContactForm = (props) => {
           <div className="auth-input-label">
             Username
           </div>
-          <Field className="auth-input" component={'input'} name={'email'}/>
+          <Field className="auth-input" component={inputLoginForm} name={'email'}/>
           <div className="auth-input-label">
             Password
           </div>
-          <Field className="auth-input" component={'input'} name={'password'} type={'password'}/>
+          <Field className="auth-input" component={inputLoginForm} name={'password'} type={'password'}/>
           <div className="auth-submit-container">
             <motion.button className="auth-submit-button"
                            type="submit"
@@ -34,7 +36,7 @@ const ContactForm = (props) => {
           <div className="auth-signUp">
             <p>
               If a member, <motion.span className="auth-text-link"
-                                         onClick={props.logIn}
+                                         onClick={props.signInForm}
                                          whileHover={{color: "rgb(78,65,113)"}}
             >
               sign in</motion.span>
@@ -45,7 +47,8 @@ const ContactForm = (props) => {
   )
 }
 const ContactFormRedux = reduxForm({
-  form: 'signUp'
+  form: 'signUp',
+  validate
 })(ContactForm)
 
 export default ContactFormRedux;
