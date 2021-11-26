@@ -301,9 +301,11 @@ li {
 
 .input-focused {
     box-shadow: 0px 0px 8px 0px rgba(43, 125, 226, 0.44);
+    transition-duration: 0.5s;
 }
 .input-error {
     box-shadow: 0px 0px 8px 0px rgba(229, 42, 102, 0.44);
+    transition-duration: 0.5s;
 }
 
 .error-text-wrapper,

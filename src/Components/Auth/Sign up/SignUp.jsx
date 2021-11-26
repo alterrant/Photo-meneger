@@ -6,7 +6,7 @@ import {validate} from "../../common/FormControl/validators";
 import {connect} from "react-redux";
 import {signUp} from "../../../redux/authReducer";
 
-const ContactForm = (props) => {
+const SignUpForm = (props) => {
 
   return (<>
         <form className="auth-form-container" onSubmit={props.handleSubmit(props.signUp)}>
@@ -52,9 +52,9 @@ const ContactForm = (props) => {
       </>
   )
 }
-const ContactFormRedux = reduxForm({
+const SignUpFormRedux = reduxForm({
   form: 'signUpForm',
   validate,
-})(ContactForm)
+})(SignUpForm)
 
-export default connect(null, {signUp})(ContactFormRedux);
+export default connect(null, {signUp})(SignUpFormRedux);
