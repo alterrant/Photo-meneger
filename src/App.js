@@ -1,5 +1,5 @@
 import './App.css';
-import {useEffect, useState} from "react";
+import {Profiler, useEffect, useState} from "react";
 import Auth from "./Components/Auth/Auth";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {connect} from "react-redux";

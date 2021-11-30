@@ -22,6 +22,10 @@ const SignUpForm = (props) => {
             Password
           </div>
           <Field className="auth-input" component={inputLoginForm} name={'password'} type={'password'}/>
+          <div className="auth-input-label">
+            Repeat password
+          </div>
+          <Field className="auth-input" component={inputLoginForm} name={'repeatedPassword'} type={'password'}/>
           <div className="form-error-wrapper">
             <div className="form-error">
               {props.error}
