@@ -1,17 +1,17 @@
-import photosStyles from './Photos.module.css'
 import React from "react";
 import {Photo} from "./Photo/Photo";
-import {useFirestore} from "../../hooks/useFirestore";
+import {connect} from "react-redux";
+import {useFirestoreUserImages} from "../../hooks/useFirestore";
 
 
-export const Photos = (props) => {
+const Photos = (props) => {
   const isOnePhoto = 'one-photo-grid';
   const isTwoPhoto = 'two-photo-grid';
   let styleWrapperPhotos = '';
 
-  const [doc] = useFirestore('user1');
+  const [userPhotos] = useFirestoreUserImages(props.authUserId)
 
-    switch (doc && doc.length) {
+    switch (userPhotos && userPhotos.length) {
 
       case 1:
         styleWrapperPhotos = isOnePhoto;
@@ -29,8 +29,18 @@ export const Photos = (props) => {
   return (
       <div>
         <ul className={styleWrapperPhotos}>
-          <Photo {...props} doc={doc}/>
+          <Photo {...props} doc={userPhotos}/>
         </ul>
       </div>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    authUserId: state.auth.authUserProfile.uid,
+    userPhotos: state.photoStorage.authUserPhotos,
+    commonPhotos: state.photoStorage.commonPhotos
+  }
+}
+
+export default connect(mapStateToProps)(Photos);

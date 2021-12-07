@@ -1,18 +1,32 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {motion} from "framer-motion";
-import useStorage from "../../../hooks/useStorage";
+import {connect} from "react-redux";
+import {addNewPhoto} from "../../../redux/photoStorage";
 
-const ProgressBar = ({file, setFile}) => {
-  const {url, progress} = useStorage(file);
+const ProgressBar = ({file, setFile, userId, addNewPhoto}) => {
+
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState(null);
+  const [url, setUrl] = useState(null);
+
+  useEffect(() => {
+    addNewPhoto({userId, file, setProgress, setError, setUrl});
+  }, [file])
 
   useEffect(() => {
     if (url) setFile(null)
   }, [url])
 
   return (<motion.div className="progress-bar"
-                  initial={{ width: 0 }}
-                  animate={{ width: progress + '%'}}></motion.div>
+                      initial={{width: 0}}
+                      animate={{width: progress + '%'}}></motion.div>
   )
 }
 
-export default ProgressBar;
+const mapStateToProps = (state) => {
+  return {
+    userId: state.auth.authUserProfile.uid
+  }
+}
+
+export default connect(mapStateToProps, {addNewPhoto})(ProgressBar);

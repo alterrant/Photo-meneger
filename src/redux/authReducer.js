@@ -12,7 +12,8 @@ const initState = {
     displayName: null,
     email: null,
     photoURL: null,
-    emailVerified: null
+    emailVerified: null,
+    uid: null
   }
 }
 

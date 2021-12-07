@@ -1,27 +1,9 @@
 import {motion} from 'framer-motion';
-import {deleteObject, ref} from "firebase/storage";
-import { doc, deleteDoc } from "firebase/firestore";
-import {projectFirestore, storage} from "../../../firebase/config";
-import {useState} from "react";
 
-const deletePhoto = async (imageName, imageFirebaseId) => {
-
-  const user = 'user1';
-  const userPhotosRef = ref(storage, `${user}/${imageName}`)
-//удаляем из fireStore
-  deleteObject(userPhotosRef).then(() => {
-    console.log("Photo has been deleted: ")
-  }).catch((error) => {
-    console.log("Error deleting photo: ", error)
-  });
-//удаляем из fireBase
-  await deleteDoc(doc(projectFirestore, "user1", `${imageFirebaseId}`));
-}
-
-export const CloseSvg = ({fileName, imageId}) => {
+export const CloseSvg = () => {
 
   return (
-      <motion.svg onClick={() => deletePhoto(fileName, imageId)}
+      <motion.svg
                   className='delete-picture'
                   opacity={0.4}
                   whileHover={{opacity: 1}}

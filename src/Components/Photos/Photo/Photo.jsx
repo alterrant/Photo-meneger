@@ -1,10 +1,9 @@
-import {useFirestore} from "../../../hooks/useFirestore";
 import {motion} from "framer-motion";
-import {CloseSvg} from "../../assets/SVG/Close";
+import CloseSvgContainer from "./CloseSvgContainer";
 
-export const Photo = ({setSelectedPhoto, doc}) => {
+export const Photo = ({setSelectedPhoto, doc, userId}) => {
 
-  const Photo = doc && doc
+  const photo = doc && doc
       .sort((a, b) => {
         if (b.addedTime && a.addedTime) return b.addedTime.seconds - a.addedTime.seconds
       })
@@ -20,15 +19,12 @@ export const Photo = ({setSelectedPhoto, doc}) => {
               boxShadow: '0 0 8px rgba(128,0,128,0.5)'
             }}
         >
-          <CloseSvg fileName={item.name} imageId={item.id}/>
-          {/*<div className='delete-picture'>CloseSvg</div>*/}
-          {/*<div className='delete-picture close'>CloseSvg</div>*/}
+          <CloseSvgContainer imageName={item.name} imageFirebaseId={item.id}/>
           <img onClick={() => setSelectedPhoto(item.imageUrl)} src={item.imageUrl} alt="imageFromBase"/></motion.li>
       })
   return (
       <>
-        {Photo}
+        {photo}
       </>
   )
 }
-

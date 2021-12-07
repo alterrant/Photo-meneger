@@ -9,8 +9,6 @@ import UserProfile from "./Components/UserProfile/UserProfile";
 
 function App({isAuth, isInit, initialize}) {
 
-  let [selectedPhoto, setSelectedPhoto] = useState(null);
-
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
@@ -27,7 +25,7 @@ function App({isAuth, isInit, initialize}) {
   return (
       <>
         {isAuth ?
-            <UserProfile selectedPhoto={selectedPhoto} setSelectedPhoto={setSelectedPhoto}/>
+            <UserProfile/>
             :
             <Auth/>}
       </>
