@@ -6,6 +6,7 @@ import {setStatusLoadingPhoto} from "../redux/photoStorage";
 
 export const useFirestoreUserImages = (authUserId) => {
   const [userImagesUrl, setUserImagesUrl] = useState([]);
+  const [allUsersImagesUrl, setAllUsersImagesUrl] = useState([]);
 
   const dispatch = useDispatch();
 

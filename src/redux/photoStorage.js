@@ -1,5 +1,5 @@
 /*import {useFirestore} from "../hooks/useFirestore";*/
-import {addUserPhoto, deleteUserPhoto, unsubscribe} from "../firebase/firestore";
+import {addUserPhoto, deletePhotos, unsubscribe} from "../firebase/firestore";
 
 const GET_USER_PHOTOS = "GET_USER_PHOTOS";
 const GET_COMMON_PHOTOS = "GET_COMMON_PHOTOS";
@@ -45,7 +45,7 @@ export const addNewPhoto = (props) => (dispatch) => {
 export const deletePhoto = (props) => (dispatch) => {
   dispatch(setStatusDeletingPhoto(true));
 
-  deleteUserPhoto(props);
+  deletePhotos(props);
 
   dispatch(setStatusDeletingPhoto(false));
 }

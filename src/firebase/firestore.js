@@ -1,6 +1,6 @@
 import {deleteObject, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {projectFirestore, storage} from '../firebase/config';
-import {addDoc, collection, deleteDoc, doc, onSnapshot, serverTimestamp} from "firebase/firestore";
+import {addDoc, setDoc, collection, deleteDoc, doc, onSnapshot, serverTimestamp} from "firebase/firestore";
 
 
 export const addUserPhoto = ({userId, file, setProgress, setError, setUrl}) => {
@@ -23,17 +23,28 @@ export const addUserPhoto = ({userId, file, setProgress, setError, setUrl}) => {
     const url = await getDownloadURL(storageNewRef);
 
     setUrl(url);
-    //запись url в fireDataBase
-    await addDoc(collection(projectFirestore, `user_${userId}`), {
+    //запись свойств файла и url в fireDataBase
+    const dataFile = {
+      addedTime: timestamp,
       name: file.name,
       imageUrl: url,
-      addedTime: timestamp,
-    });
+    }
+    //записываем в профиль пользователя и запоминаем автосгенерированное id коллекции
+    const userPhotoCollection = await addDoc(collection(projectFirestore, `user_${userId}`), dataFile);
+    const imageUserFirebaseId = userPhotoCollection.id;
+    //записываем в общие фото
+    await setDoc(doc(projectFirestore, `common_photos`, imageUserFirebaseId), dataFile);
   })
+
 }
 
-export const deleteUserPhoto = ({userId, imageName, imageFirebaseId}) => {
+export const deletePhotos = ({userId, imageName, imageFirebaseId}) => {
 
+  deleteUserPhoto({userId, imageName, imageFirebaseId});
+  deleteCommonPhoto({imageFirebaseId});
+}
+
+const deleteUserPhoto = ({userId, imageName, imageFirebaseId}) => {
   const userPhotosRef = ref(storage, `user_${userId}/${imageName}`)
 //удаляем из fireStore
   deleteObject(userPhotosRef).then(() => {
@@ -41,6 +52,10 @@ export const deleteUserPhoto = ({userId, imageName, imageFirebaseId}) => {
   }).catch((error) => {
     console.log("Error deleting photo: ", error)
   });
-//удаляем из fireBase
+//удаляем ссылку на файл из fireBase юзера
   deleteDoc(doc(projectFirestore, `user_${userId}`, `${imageFirebaseId}`));
+}
+const deleteCommonPhoto = ({imageFirebaseId}) => {
+//удаляем ссылку на файл из общей базы картинок в fireBase
+  deleteDoc(doc(projectFirestore, `common_photos`, `${imageFirebaseId}`));
 }

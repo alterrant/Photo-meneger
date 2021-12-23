@@ -25,7 +25,7 @@ const initialiseApp = (state = initState, action) => {
 export default initialiseApp;
 
 export const setInitializeSuccess = () => ({type: SET_INITIALIZED_SUCCESS});
-export const initialize = (currentUser) => async (dispatch) => {
+export const initialize = (currentUser) => (dispatch) => {
 
   if (currentUser) {
     dispatch(setAuthProfile(authUserProfile(currentUser.auth)));
