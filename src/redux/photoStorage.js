@@ -5,22 +5,25 @@ const GET_USER_PHOTOS = "GET_USER_PHOTOS";
 const GET_COMMON_PHOTOS = "GET_COMMON_PHOTOS";
 const LOADING_PHOTO_TOGGLE = "LOADING_PHOTO_TOGGLE";
 const DELETING_PHOTO_TOGGLE = "DELETING_PHOTO_TOGGLE";
+const LOOKING_MY_PHOTO_TOGGLE = "LOOKING_MY_PHOTO_TOGGLE";
 
 const initialPhotoState = {
+  isLookingMyPhotos : true,
   isLoadingPhoto: false,
   isDeletingPhoto: false,
   authUserPhotos: null,
-  commonPhotos: null
+  commonPhotos: []
 };
 
 export const photoStorage = (state = initialPhotoState, action) => {
   switch (action.type) {
+    case LOOKING_MY_PHOTO_TOGGLE:
+      return {...state, isLookingMyPhotos: !state.isLookingMyPhotos}
     case GET_USER_PHOTOS:
       return {...state, authUserPhotos: action.photos}
     case GET_COMMON_PHOTOS:
       return {...state, commonPhotos: action.commonPhotos}
     case LOADING_PHOTO_TOGGLE:
-      debugger
       return {...state, isLoadingPhoto: action.isLoadingPhoto}
     case DELETING_PHOTO_TOGGLE:
       return {...state, isDeletingPhoto: action.isDeletingPhoto}
@@ -29,8 +32,9 @@ export const photoStorage = (state = initialPhotoState, action) => {
   }
 }
 
+export const setStatusLookingPhotos = () => ({type: LOOKING_MY_PHOTO_TOGGLE})
 export const getUserPhotos = (photos) => ({type: GET_USER_PHOTOS, photos});
-export const getCommonPhotos = (photos) => ({type: GET_COMMON_PHOTOS, photos});
+export const getCommonPhotos = (commonPhotos) => ({type: GET_COMMON_PHOTOS, commonPhotos});
 export const setStatusLoadingPhoto = (isLoadingPhoto) => ({type: LOADING_PHOTO_TOGGLE, isLoadingPhoto});
 export const setStatusDeletingPhoto = (isDeleting) => ({type: DELETING_PHOTO_TOGGLE, isDeleting});
 

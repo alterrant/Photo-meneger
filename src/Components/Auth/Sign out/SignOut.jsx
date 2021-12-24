@@ -4,7 +4,9 @@ import {logOut} from "../../../redux/authReducer";
 
 const LogOut = ({logOut}) => {
   return (
-      <button onClick={logOut}>Sign Out</button>
+      <div className="buttonLogOut">
+        <button onClick={logOut}>Sign Out</button>
+      </div>
   )
 }
 
