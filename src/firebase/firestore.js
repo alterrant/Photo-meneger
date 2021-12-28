@@ -1,6 +1,6 @@
 import {deleteObject, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {projectFirestore, storage} from '../firebase/config';
-import {addDoc, setDoc, collection, deleteDoc, doc, onSnapshot, serverTimestamp} from "firebase/firestore";
+import {addDoc, collection, deleteDoc, doc, onSnapshot, serverTimestamp, setDoc} from "firebase/firestore";
 
 
 export const addUserPhoto = ({userId, file, setProgress, setError, setUrl}) => {
@@ -58,4 +58,27 @@ const deleteUserPhoto = ({userId, imageName, imageFirebaseId}) => {
 const deleteCommonPhoto = ({imageFirebaseId}) => {
 //удаляем ссылку на файл из общей базы картинок в fireBase
   deleteDoc(doc(projectFirestore, `common_photos`, `${imageFirebaseId}`));
+}
+
+export const snapshotCommonPhotos = (setUrlImages) => {
+  //делаем снимок и подписываемся на изменения в коллекции "common_photos"
+  onSnapshot(collection(projectFirestore, `common_photos`),
+      (querySnapshot) => {
+        const allImagesUrl = [];
+        querySnapshot.forEach((item) => {
+          allImagesUrl.push({id: item.id, ...item.data()})
+        })
+        if (setUrlImages) setUrlImages(allImagesUrl);
+      })
+}
+
+export const snapshotUserPhotos = (setUrlImages, user) => {
+  onSnapshot(collection(projectFirestore, user),
+      (querySnapshot) => {
+        const allImagesUrl = [];
+        querySnapshot.forEach((item) => {
+          allImagesUrl.push({id: item.id, ...item.data()})
+        })
+        if (setUrlImages) setUrlImages(allImagesUrl);
+      })
 }

@@ -1,4 +1,4 @@
-import {useFirestoreAllImages} from "../../hooks/useFirestore";
+import {useFirestoreGetAllImages} from "../../hooks/useFirestore";
 import {Photo} from "../Photos/Photo/Photo";
 import React from "react";
 import UserTitile from "../Main/UserTitile/UserTitile";
@@ -8,7 +8,7 @@ const CommonPhotos = () => {
   const isTwoPhoto = 'two-photo-grid';
   let styleWrapperPhotos = '';
 
-  const [userPhotos] = useFirestoreAllImages();
+  const [userPhotos] = useFirestoreGetAllImages();
 
   switch (userPhotos && userPhotos.length) {
 

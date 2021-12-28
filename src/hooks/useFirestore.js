@@ -1,59 +1,39 @@
-import {projectFirestore} from "../firebase/config";
 import {useEffect, useState} from "react";
-import {collection, onSnapshot} from "firebase/firestore"
 import {useDispatch, useSelector} from "react-redux";
-import {getCommonPhotos, setStatusLoadingPhoto} from "../redux/photoStorage";
+import {
+  subscribeCommonPhotos,
+  subscribeUserPhotos,
+  unsubscribeCommonPhotos,
+  unsubscribeUserPhotos
+} from "../redux/photoStorage";
 
-export const useFirestoreUserImages = (authUserId) => {
-  const [userImagesUrl, setUserImagesUrl] = useState([]);
+export const useFirestoreGetUserImages = () => {
 
   const dispatch = useDispatch();
+  const userPhotos = useSelector(state => state.photoStorage.userPhotos);
+  const authUserId = useSelector(state => state.auth.authUserProfile.uid);
+
+  const [urlImages, setUrlImages] = useState([]);
+  const user = `user_${authUserId}`
 
   useEffect(() => {
-    dispatch(setStatusLoadingPhoto(true));
+    dispatch(subscribeUserPhotos(setUrlImages, urlImages, user));
+    return () => dispatch(unsubscribeUserPhotos(user));
+  }, [urlImages]);
 
-    const unsubscribe = onSnapshot(collection(projectFirestore, `user_${authUserId}`),
-        (querySnapshot) => {
-          const allImagesUrl = [];
-          querySnapshot.forEach((item) => {
-            allImagesUrl.push({id: item.id, ...item.data()})
-          })
-          setUserImagesUrl(allImagesUrl);
-        });
-
-    return () => unsubscribe();
-  }, [])
-
-  dispatch(setStatusLoadingPhoto(false));
-
-  return [userImagesUrl]
+  return [userPhotos];
 }
 
-//TODO: рефактор, повтор кода
-export const useFirestoreAllImages = () => {
-  /*const [allImagesUrl, setAllImagesUrl] = useState([]);*/
+export const useFirestoreGetAllImages = () => {
 
   const dispatch = useDispatch();
   const commonPhotos = useSelector(state => state.photoStorage.commonPhotos);
+  const [urlImages, setUrlImages] = useState([]);
 
   useEffect(() => {
-   /* dispatch(setStatusLoadingPhoto(true));*/
+    dispatch(subscribeCommonPhotos(setUrlImages, urlImages));
+    return () => dispatch(unsubscribeCommonPhotos());
+  }, [urlImages]);
 
-    const unsubscribe = onSnapshot(collection(projectFirestore, `common_photos`),
-        (querySnapshot) => {
-          const allImagesUrl = [];
-          querySnapshot.forEach((item) => {
-            allImagesUrl.push({id: item.id, ...item.data()})
-          })
-          dispatch(getCommonPhotos(allImagesUrl))
-          /*setAllImagesUrl(allImagesUrl);*/
-        });
-
-    return () => unsubscribe();
-  }, [])
-
-  /*dispatch(setStatusLoadingPhoto(false));*/
-
-  return [commonPhotos];
-  /*return [allImagesUrl]*/
+  return [commonPhotos]
 }

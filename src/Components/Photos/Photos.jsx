@@ -1,7 +1,6 @@
 import React from "react";
 import {Photo} from "./Photo/Photo";
-import {connect} from "react-redux";
-import {useFirestoreUserImages} from "../../hooks/useFirestore";
+import {useFirestoreGetUserImages} from "../../hooks/useFirestore";
 
 
 const Photos = (props) => {
@@ -9,7 +8,7 @@ const Photos = (props) => {
   const isTwoPhoto = 'two-photo-grid';
   let styleWrapperPhotos = '';
 
-  const [userPhotos] = useFirestoreUserImages(props.authUserId)
+  const [userPhotos] = useFirestoreGetUserImages();
 
     switch (userPhotos && userPhotos.length) {
 
@@ -35,12 +34,4 @@ const Photos = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    authUserId: state.auth.authUserProfile.uid,
-    userPhotos: state.photoStorage.authUserPhotos,
-    commonPhotos: state.photoStorage.commonPhotos
-  }
-}
-
-export default connect(mapStateToProps)(Photos);
+export default Photos;
