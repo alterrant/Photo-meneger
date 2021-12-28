@@ -94,8 +94,12 @@ li {
     height: 0;
     padding: 50% 0;
     position: relative;
+
     opacity: 0.8;
+    box-shadow: 8px 8px 15px 3px rgb(22, 14, 23);
+    cursor: pointer;
 }
+
 
 .image-wrapper img {
     /* У некоторых фото изменяются размеры при перезагрузки страницы
@@ -108,8 +112,12 @@ li {
     top: 0;
     left: 0;
     z-index: 1;
-}
 
+
+}
+/*.user-image {
+
+}*/
 .selectedPhoto-wrapper img {
     display: block;
     max-width: 50%;
