@@ -2,8 +2,9 @@ import {useFirestoreGetAllImages} from "../../hooks/useFirestore";
 import {Photo} from "../Photos/Photo/Photo";
 import React from "react";
 import UserTitile from "../Main/UserTitile/UserTitile";
+import {SelectedPhoto} from "../SelectedPhoto/SelectedPhoto";
 
-const CommonPhotos = () => {
+const CommonPhotos = ({selectedPhoto}) => {
   const isOnePhoto = 'one-photo-grid';
   const isTwoPhoto = 'two-photo-grid';
   let styleWrapperPhotos = '';
@@ -28,11 +29,12 @@ const CommonPhotos = () => {
   return (
       <>
         <UserTitile user={"Common"}/>
-        <div className="ololo">
+        <div className="common-photo-wrapper">
           <ul className={styleWrapperPhotos}>
-            <Photo doc={userPhotos}/>
+            <Photo setSelectedPhoto={selectedPhoto.setSelectedPhoto} doc={userPhotos}/>
           </ul>
         </div>
+        {selectedPhoto.selectedPhoto && <SelectedPhoto selectedPhoto={selectedPhoto.selectedPhoto} setSelectedPhoto={selectedPhoto.setSelectedPhoto}/>}
       </>
   )
 }

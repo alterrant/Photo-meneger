@@ -112,12 +112,7 @@ li {
     top: 0;
     left: 0;
     z-index: 1;
-
-
 }
-/*.user-image {
-
-}*/
 .selectedPhoto-wrapper img {
     display: block;
     max-width: 50%;
@@ -350,8 +345,6 @@ header {
     justify-content: center;
 }
 
-.switchPhotosLabel {
-}
-.ololo {
+.common-photo-wrapper {
     margin-top: 28px;
 }

@@ -1,7 +1,7 @@
 import {motion} from "framer-motion";
 import CloseSvgContainer from "./CloseSvgContainer";
 
-export const Photo = ({setSelectedPhoto, doc, userId}) => {
+export const Photo = ({setSelectedPhoto, doc}) => {
 
   const photo = doc && doc
       .sort((a, b) => {
@@ -16,7 +16,6 @@ export const Photo = ({setSelectedPhoto, doc, userId}) => {
             transition={{duration: 0.275}}
             whileHover={{
               opacity: 1,
-              /*boxShadow: '0 0 8px rgba(128,0,128,0.5)'*/
               boxShadow: `8px 8px 15px 3px rgba(128,0,128,0.5)`
             }}
         >
