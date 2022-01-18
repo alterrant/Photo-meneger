@@ -4,6 +4,7 @@ import SwitchPhotos from "./SwitchPhotos";
 import {useState} from "react";
 
 const Header = () => {
+
   return (
       <header>
         <GitHubSVG/>
