@@ -1,6 +1,13 @@
 html {
     box-sizing: border-box;
 }
+/*Убираем смещение экрана при появлении вертикального skroll-bar*/
+@media screen and (min-width: 960px) {
+    html {
+        margin-left: calc(100vw - 100%);
+        margin-right: 0;
+    }
+}
 
 *, *:before, *:after {
     box-sizing: inherit;
