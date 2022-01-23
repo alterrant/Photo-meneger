@@ -1,12 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {setAuthProfile} from "./authReducer";
+import {createUserProfile} from "../firebase/auth";
 
 const initialState = {
   isInitialized: false
 }
 
 export const initialize = (currentUser) => (dispatch) => {
-  dispatch(setAuthProfile(currentUser));
+
+  const userProfile = createUserProfile(currentUser);
+  dispatch(setAuthProfile(userProfile));
   dispatch(setInitializedSuccess());
 }
 
@@ -14,7 +17,7 @@ const initialiseAppSlice = createSlice({
   name: 'initialiseApp',
   initialState,
   reducers: {
-    setInitializedSuccess(state, action) {
+    setInitializedSuccess(state) {
       state.isInitialized = true;
     }
   }
