@@ -1,93 +1,98 @@
-import {addUserPhoto, deletePhotos, snapshotCommonPhotos, snapshotUserPhotos} from "../firebase/firestore";
+import {
+  addUserPhoto,
+  deletePhotos,
+  snapshotCommonPhotos,
+  snapshotUserPhotos,
+  sortAndSerializePhotos
+} from "../firebase/firestore";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 
-const GET_USER_PHOTOS = "GET_USER_PHOTOS";
-const GET_COMMON_PHOTOS = "GET_COMMON_PHOTOS";
-const LOADING_PHOTO_TOGGLE = "LOADING_PHOTO_TOGGLE";
-const LOADING_USER_PHOTO_TOGGLE = "LOADING_USER_PHOTO_TOGGLE";
-const LOADING_COMMON_PHOTO_TOGGLE = "LOADING_COMMON_PHOTO_TOGGLE";
-const DELETING_PHOTO_TOGGLE = "DELETING_PHOTO_TOGGLE";
-const LOOKING_MY_PHOTO_TOGGLE = "LOOKING_MY_PHOTO_TOGGLE";
-
-const initialPhotoState = {
-  isLookingMyPhotos : true,
-  isLoadingPhoto: false,
+const initialState = {
+  isLookingMyPhotos: true,
+  isLoadingNewPhoto: false,
   isLoadingUserPhotos: false,
   isLoadingCommonPhotos: false,
   isDeletingPhoto: false,
-  authUserPhotos: null,
   userPhotos: [],
   commonPhotos: []
 };
 
-export const photoStorage = (state = initialPhotoState, action) => {
-  switch (action.type) {
-    case LOOKING_MY_PHOTO_TOGGLE:
-      return {...state, isLookingMyPhotos: !state.isLookingMyPhotos}
-    case GET_USER_PHOTOS:
-      return {...state, userPhotos: action.userPhotos}
-    case GET_COMMON_PHOTOS:
-      return {...state, commonPhotos: action.commonPhotos}
-    case LOADING_PHOTO_TOGGLE:
-      return {...state, isLoadingPhoto: action.isLoadingPhoto}
-    case LOADING_USER_PHOTO_TOGGLE:
-      return {...state, isLoadingUserPhotos: action.isLoadingUserPhotos}
-    case LOADING_COMMON_PHOTO_TOGGLE:
-      return {...state, isLoadingCommonPhotos: action.isLoadingCommonPhotos}
-    case DELETING_PHOTO_TOGGLE:
-      return {...state, isDeletingPhoto: action.isDeletingPhoto}
-    default:
-      return state;
+const photoStorageSlice = createSlice({
+  name: 'photoStorage',
+  initialState,
+  reducers: {
+    setStatusLookingPhotos(state, action) {
+      state.isLookingMyPhotos = !state.isLookingMyPhotos;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+        .addCase(addNewPhoto.pending, (state, action) => {
+          state.isLoadingNewPhoto = true;
+        })
+        .addCase(addNewPhoto.fulfilled, (state, action) => {
+          state.isLoadingNewPhoto = false;
+        })
+        .addCase(deletePhoto.pending, (state, action) => {
+          state.isDeletingPhoto = true;
+        })
+        .addCase(deletePhoto.fulfilled, (state, action) => {
+          state.isDeletingPhoto = false;
+        })
+        .addCase(subscribeCommonPhotos.pending, (state, action) => {
+          state.isLoadingCommonPhotos = true;
+        })
+        .addCase(subscribeCommonPhotos.fulfilled, (state, action) => {
+          state.isLoadingCommonPhotos = false;
+          state.commonPhotos = sortAndSerializePhotos(action.payload);
+        })
+        .addCase(subscribeUserPhotos.pending, (state, action) => {
+          state.isLoadingUserPhotos = true;
+        })
+        .addCase(subscribeUserPhotos.fulfilled, (state, action) => {
+          state.isLoadingUserPhotos = false;
+          state.userPhotos = sortAndSerializePhotos(action.payload);
+        })
   }
-}
+})
 
-export const getUserPhotos = (userPhotos) => ({type: GET_USER_PHOTOS, userPhotos});
-export const getCommonPhotos = (commonPhotos) => ({type: GET_COMMON_PHOTOS, commonPhotos});
-export const setStatusLookingPhotos = () => ({type: LOOKING_MY_PHOTO_TOGGLE})
-export const setStatusLoadingPhoto = (isLoadingPhoto) => ({type: LOADING_PHOTO_TOGGLE, isLoadingPhoto});
-export const setStatusLoadingUserPhotos = (isLoadingUserPhotos) => ({type: LOADING_USER_PHOTO_TOGGLE, isLoadingUserPhotos});
-export const setStatusLoadingCommonPhotos = (isLoadingCommonPhotos) => ({type: LOADING_COMMON_PHOTO_TOGGLE, isLoadingCommonPhotos});
-export const setStatusDeletingPhoto = (isDeleting) => ({type: DELETING_PHOTO_TOGGLE, isDeleting});
+export const addNewPhoto = createAsyncThunk(
+    'photoStorage/addNewPhoto',
 
-export const addNewPhoto = (props) => (dispatch) => {
-  dispatch(setStatusLoadingPhoto(true));
+    async (props) => {
+      return await addUserPhoto(props);
+    }
+)
+export const deletePhoto = createAsyncThunk(
+    'photoStorage/deletePhoto',
 
-  addUserPhoto(props);
+    async (props) => {
+      return await deletePhotos(props);
+    }
+)
+export const subscribeCommonPhotos = createAsyncThunk(
+    'photoStorage/subscribeCommonPhotos',
 
-  dispatch(setStatusLoadingPhoto(false));
-}
+    async ({setUrlImages, urlImages}, dispatch) => {
+      await snapshotCommonPhotos('subscribe', setUrlImages, urlImages);
+      return urlImages;
+    }
+)
+export const subscribeUserPhotos = createAsyncThunk(
+    'photoStorage/subscribeUserPhotos',
 
-export const deletePhoto = (props) => (dispatch) => {
-  dispatch(setStatusDeletingPhoto(true));
-
-  deletePhotos(props);
-
-  dispatch(setStatusDeletingPhoto(false));
-}
-
-export const subscribeCommonPhotos = (setUrlImages, urlImages) => (dispatch) => {
-  dispatch(setStatusLoadingCommonPhotos(true));
-
-  snapshotCommonPhotos(setUrlImages);
-
-  dispatch(getCommonPhotos(urlImages));
-
-  dispatch(setStatusLoadingCommonPhotos(false));
-}
-
-export const unsubscribeCommonPhotos = () => (dispatch) => {
-  snapshotCommonPhotos();
-}
-
-export const subscribeUserPhotos = (setUrlImages, urlImages, user) => (dispatch)   => {
-  dispatch(setStatusLoadingCommonPhotos(true));
-
-  snapshotUserPhotos(setUrlImages, user);
-
-  dispatch(getUserPhotos(urlImages));
-
-  dispatch(setStatusLoadingCommonPhotos(false));
-}
-
+    async ({user, setUrlImages, urlImages}, dispatch) => {
+      await snapshotUserPhotos('subscribe', user, setUrlImages, urlImages);
+      return urlImages;
+    }
+)
 export const unsubscribeUserPhotos = (user) => (dispatch) => {
-  snapshotUserPhotos(null, user);
+  snapshotUserPhotos('unSubscribe', user);
 }
+export const unsubscribeCommonPhotos = () => (dispatch) => {
+  snapshotCommonPhotos('unSubscribe');
+}
+
+export const {setStatusLookingPhotos} = photoStorageSlice.actions;
+
+export default photoStorageSlice.reducer;

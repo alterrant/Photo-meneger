@@ -1,8 +1,16 @@
-import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
-import {reducer} from "./reducers";
-import thunkMiddleware from 'redux-thunk'
+import initialiseAppReducer from "./initialiseApp";
+import authReducer from "./authReducer";
+import photoStorageReducer from "./photoStorage";
+import {reducer as formReducer} from "redux-form";
+import {configureStore} from "@reduxjs/toolkit";
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-export const store = createStore(reducer, composeEnhancers(
-    applyMiddleware(thunkMiddleware)
-));
+const store = configureStore({
+  reducer: {
+    initialiseApp: initialiseAppReducer,
+    auth: authReducer,
+    photoStorage: photoStorageReducer,
+    form: formReducer
+  }
+})
+
+export default store;

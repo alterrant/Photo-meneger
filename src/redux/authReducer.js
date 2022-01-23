@@ -1,13 +1,12 @@
 import {logOutRequest, signIn, signUpRequest} from "../firebase/auth";
 import {stopSubmit, SubmissionError} from "redux-form";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 
-const SET_AUTH_SUCCESS = "PHOTO_MANAGER/AUTH_REDUCER/SET_AUTH_SUCCESS";
-const SET_AUTH_OUT = "PHOTO_MANAGER/AUTH_REDUCER/SET_AUTH_OUT";
-const SET_AUTH_PROFILE = "PHOTO_MANAGER/AUTH_REDUCER/SET_AUTH_PROFILE";
-
-
-const initState = {
+const initialState = {
   isAuth: false,
+  isFetchingLogIn: false,
+  isFetchingLogOut: false,
+
   authUserProfile: {
     displayName: null,
     email: null,
@@ -17,57 +16,93 @@ const initState = {
   }
 }
 
-const authReducer = (state = initState, action) => {
-  switch (action.type) {
-    case SET_AUTH_SUCCESS:
-      return {...state, isAuth: true}
-    case SET_AUTH_PROFILE:
-      return {...state, authUserProfile: {...state.authUserProfile, ...action.authProfile}}
-    case SET_AUTH_OUT:
-      return {
-        ...state,
-        isAuth: false,
-        authUserProfile: {
-          displayName: null,
-          email: null,
-          photoURL: null,
-          emailVerified: null
-        }
+export const logIn = createAsyncThunk(
+    'auth/logIn',
+
+    async ({email, password}, dispatch) => {
+      const result = await signIn({email, password});
+
+      if (result.reject) dispatch(stopSubmit("signInForm", {
+        _error: "Invalid email or password",
+        email: " ",
+        password: " "
+      }));
+
+      return result;
+    }
+);
+
+export const signUp = createAsyncThunk(
+    'auth/signUp',
+
+    async ({email, password}) => {
+      const signedUp = await signUpRequest({email, password});
+
+      if (signedUp.error) {
+        if (signedUp.error.errorCode === "auth/email-already-in-use") throw new SubmissionError({
+          _error: "email already exist",
+          email: " ",
+          password: " "
+        });
+
+        if (signedUp.error.errorCode === "auth/invalid-email") throw new SubmissionError({
+          _error: "invalid email",
+          email: " ",
+          password: " "
+        });
+
+        throw new SubmissionError({_error: signedUp.error.errorCode, email: " ", password: " "});
       }
-    default:
-      return state
-  }
-}
 
-export default authReducer;
+      return signedUp;
+    }
+)
 
-export const setAuthSuccess = () => ({type: SET_AUTH_SUCCESS});
-export const setAuthOut = () => ({type: SET_AUTH_OUT});
-export const setAuthProfile = (authProfile) => ({type: SET_AUTH_PROFILE, authProfile});
-
-export const logIn = ({email, password}) => (dispatch) => {
-  const signedUser = signIn({email, password});
-  signedUser ?
-      dispatch(setAuthUser(signedUser))
-      :
-      dispatch(stopSubmit("signInForm", {_error: "Invalid email or password", email: " ", password: " "}));
-}
-
-export const signUp = ({email, password}) => () => {
-  const signedUp = signUpRequest({email, password});
-  if (signedUp.error) {
-    if (signedUp.error.errorCode === "auth/email-already-in-use") throw new SubmissionError({_error: "email already exist", email: " ", password: " "});
-    if (signedUp.error.errorCode === "auth/invalid-email") throw new SubmissionError({_error: "invalid email", email: " ", password: " "});
-    throw new SubmissionError({_error: signedUp.error.errorCode, email: " ", password: " "})
-  }
-}
-
-export const logOut = () => (dispatch) => {
+export const loggingOut = () => (dispatch) => {
   logOutRequest();
-  dispatch(setAuthOut());
+
+  dispatch(logOut());
 }
 
-export const setAuthUser = (authProfile) => (dispatch) => {
-  dispatch(setAuthSuccess());
-  dispatch(setAuthProfile(authProfile));
-}
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    setAuthProfile(state, action) {
+      if (action.payload) {
+        state.isAuth = true;
+
+        state.authUserProfile = action.payload;
+      }
+    },
+    logOut(state, action) {
+      state.isFetchingLogOut = false;
+      state.isAuth = false;
+
+      state.authUserProfile = {
+        displayName: null,
+        email: null,
+        photoURL: null,
+        emailVerified: null
+      }
+    },
+    extraReducers: builder => {
+      builder
+          .addCase(logIn.pending, (state, action) => {
+            console.log('sadfkjashdfhasd')
+            state.isFetchingLogIn = true;
+          })
+          .addCase(logIn.fulfilled, (state, action) => {
+            state.isFetchingLogIn = false;
+            state.isAuth = true;
+
+            state.authUserProfile = action.payload;
+          })
+    }
+  }
+})
+
+
+export const {setAuthProfile, logOut} = authSlice.actions;
+
+export default authSlice.reducer;

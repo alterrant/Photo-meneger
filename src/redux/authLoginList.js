@@ -1,22 +1,22 @@
-const SET_EMAIL_PASS_LOGIN = "PHOTO_MANAGER/AUTH_LOGIN_LIST/SET_EMAIL_PASS_LOGIN";
-const SET_SIGN_UP = "PHOTO_MANAGER/AUTH_LOGIN_LIST/SET_SIGN_UP";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
   authLogin: "signInEmailPass"
 }
 
-const reducerLoginList = (state, action) => {
-  switch (action.type) {
-    case SET_EMAIL_PASS_LOGIN:
-      return {...state, authLogin: "signInEmailPass"}
-    case SET_SIGN_UP:
-      return {...state, authLogin: "signUp"}
-    default:
-      return state;
+const loginListSlice = createSlice({
+  name: 'loginList',
+  initialState,
+  reducers: {
+    setEmailPassLogin(state, action) {
+      state.authLogin = "signInEmailPass";
+    },
+    setSignUp(state, action) {
+      state.authLogin = "signUp";
+    }
   }
-}
+})
 
-export default reducerLoginList;
+export const {setEmailPassLogin, setSignUp} = loginListSlice.actions;
 
-export const setEmailPassLogin = () => ({type: SET_EMAIL_PASS_LOGIN});
-export const setSignUp = () => ({type: SET_SIGN_UP});
+export default loginListSlice.reducer;
