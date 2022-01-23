@@ -79,3 +79,33 @@ export const authUserProfile = (auth) => {
     }
   }
 }
+
+export const createUserProfile = (user) => {
+  const userProfile = {};
+
+  const {
+    uid,
+    email,
+    emailVerified,
+    displayName,
+    isAnonymous,
+    photoURL,
+    phoneNumber,
+    metadata: {
+      creationTime,
+      lastSignInTime
+    }
+  } = user;
+
+  uid && (userProfile.uid = uid);
+  email && (userProfile.email = email);
+  emailVerified && (userProfile.emailVerified = emailVerified);
+  displayName && (userProfile.displayName = displayName);
+  isAnonymous && (userProfile.isAnonymous = isAnonymous);
+  photoURL && (userProfile.photoURL = photoURL);
+  phoneNumber && (userProfile.phoneNumber = phoneNumber);
+  creationTime && (userProfile.creationTime = creationTime);
+  lastSignInTime && (userProfile.lastSignInTime = lastSignInTime);
+
+  return userProfile;
+}
