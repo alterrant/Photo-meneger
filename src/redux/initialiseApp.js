@@ -7,9 +7,12 @@ const initialState = {
 }
 
 export const initialize = (currentUser) => (dispatch) => {
+  if (currentUser) {
+    const userProfile = createUserProfile(currentUser);
 
-  const userProfile = createUserProfile(currentUser);
-  dispatch(setAuthProfile(userProfile));
+    dispatch(setAuthProfile(userProfile));
+  }
+
   dispatch(setInitializedSuccess());
 }
 
