@@ -1,9 +1,9 @@
 export const validate = values => {
   const errors = {};
-  debugger
+
   if (!values.email) {
     errors.email = "Field is empty";
-  } else if (!/[.-\w]+@([\w-]+\.)+[\w-]+/g.test(values.email)) {
+  } else if (!/[.\w-]+@([\w-]+\.)+[\w-]+/g.test(values.email)) {
     errors.email = 'Invalid email address'
   }
   if (!values.password) {
