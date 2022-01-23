@@ -14,10 +14,10 @@ export const useFirestoreGetUserImages = () => {
   const authUserId = useSelector(state => state.auth.authUserProfile.uid);
 
   const [urlImages, setUrlImages] = useState([]);
-  const user = `user_${authUserId}`
+  const user = `user_${authUserId}`;
 
   useEffect(() => {
-    dispatch(subscribeUserPhotos(setUrlImages, urlImages, user));
+    dispatch(subscribeUserPhotos({user, setUrlImages, urlImages}));
     return () => dispatch(unsubscribeUserPhotos(user));
   }, [urlImages]);
 
@@ -31,9 +31,9 @@ export const useFirestoreGetAllImages = () => {
   const [urlImages, setUrlImages] = useState([]);
 
   useEffect(() => {
-    dispatch(subscribeCommonPhotos(setUrlImages, urlImages));
+    dispatch(subscribeCommonPhotos({setUrlImages, urlImages}));
     return () => dispatch(unsubscribeCommonPhotos());
   }, [urlImages]);
 
-  return [commonPhotos]
+  return [commonPhotos];
 }
