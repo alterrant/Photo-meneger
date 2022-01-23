@@ -7,11 +7,11 @@ import {SelectedPhoto} from "../SelectedPhoto/SelectedPhoto";
 const CommonPhotos = ({selectedPhoto}) => {
   const isOnePhoto = 'one-photo-grid';
   const isTwoPhoto = 'two-photo-grid';
-  let styleWrapperPhotos = '';
+  let styleWrapperPhotos;
 
-  const [userPhotos] = useFirestoreGetAllImages();
+  const [commonPhotos] = useFirestoreGetAllImages();
 
-  switch (userPhotos && userPhotos.length) {
+  switch (commonPhotos && commonPhotos.length) {
 
     case 1:
       styleWrapperPhotos = isOnePhoto;
@@ -31,7 +31,7 @@ const CommonPhotos = ({selectedPhoto}) => {
         <UserTitile user={"Common"}/>
         <div className="common-photo-wrapper">
           <ul className={styleWrapperPhotos}>
-            <Photo setSelectedPhoto={selectedPhoto.setSelectedPhoto} doc={userPhotos}/>
+            <Photo setSelectedPhoto={selectedPhoto.setSelectedPhoto} photos={commonPhotos}/>
           </ul>
         </div>
         {selectedPhoto.selectedPhoto && <SelectedPhoto selectedPhoto={selectedPhoto.selectedPhoto} setSelectedPhoto={selectedPhoto.setSelectedPhoto}/>}

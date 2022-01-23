@@ -6,7 +6,7 @@ import {useFirestoreGetUserImages} from "../../hooks/useFirestore";
 const Photos = (props) => {
   const isOnePhoto = 'one-photo-grid';
   const isTwoPhoto = 'two-photo-grid';
-  let styleWrapperPhotos = '';
+  let styleWrapperPhotos;
 
   const [userPhotos] = useFirestoreGetUserImages();
 
@@ -28,7 +28,7 @@ const Photos = (props) => {
   return (
       <div>
         <ul className={styleWrapperPhotos}>
-          <Photo {...props} doc={userPhotos}/>
+          <Photo {...props} photos={userPhotos}/>
         </ul>
       </div>
   )
