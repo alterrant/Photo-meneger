@@ -1,11 +1,11 @@
 import {
   addUserPhoto,
-  deletePhotos, serializeSnapshotPhotos,
+  deletePhotos,
   snapshotCommonPhotos,
   snapshotUserPhotos,
   sortAndSerializePhotos
 } from "../firebase/firestore";
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
   isLookingMyPhotos: true,
@@ -21,32 +21,32 @@ const photoStorageSlice = createSlice({
   name: 'photoStorage',
   initialState,
   reducers: {
-    setStatusLookingPhotos(state, action) {
+    setStatusLookingPhotos(state) {
       state.isLookingMyPhotos = !state.isLookingMyPhotos;
     },
   },
   extraReducers: (builder) => {
     builder
-        .addCase(addNewPhoto.pending, (state, action) => {
+        .addCase(addNewPhoto.pending, (state) => {
           state.isLoadingNewPhoto = true;
         })
-        .addCase(addNewPhoto.fulfilled, (state, action) => {
+        .addCase(addNewPhoto.fulfilled, (state) => {
           state.isLoadingNewPhoto = false;
         })
-        .addCase(deletePhoto.pending, (state, action) => {
+        .addCase(deletePhoto.pending, (state) => {
           state.isDeletingPhoto = true;
         })
-        .addCase(deletePhoto.fulfilled, (state, action) => {
+        .addCase(deletePhoto.fulfilled, (state) => {
           state.isDeletingPhoto = false;
         })
-        .addCase(subscribeCommonPhotos.pending, (state, action) => {
+        .addCase(subscribeCommonPhotos.pending, (state) => {
           state.isLoadingCommonPhotos = true;
         })
         .addCase(subscribeCommonPhotos.fulfilled, (state, action) => {
           state.isLoadingCommonPhotos = false;
           state.commonPhotos = action.payload;
         })
-        .addCase(subscribeUserPhotos.pending, (state, action) => {
+        .addCase(subscribeUserPhotos.pending, (state) => {
           state.isLoadingUserPhotos = true;
         })
         .addCase(subscribeUserPhotos.fulfilled, (state, action) => {
@@ -87,10 +87,10 @@ export const subscribeUserPhotos = createAsyncThunk(
       return sortAndSerializePhotos(urlImages);
     }
 )
-export const unsubscribeUserPhotos = (user) => (dispatch) => {
+export const unsubscribeUserPhotos = (user) => () => {
   snapshotUserPhotos('unSubscribe', user);
 }
-export const unsubscribeCommonPhotos = () => (dispatch) => {
+export const unsubscribeCommonPhotos = () => () => {
   snapshotCommonPhotos('unSubscribe');
 }
 
