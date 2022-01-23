@@ -1,6 +1,6 @@
 import {
   addUserPhoto,
-  deletePhotos,
+  deletePhotos, serializeSnapshotPhotos,
   snapshotCommonPhotos,
   snapshotUserPhotos,
   sortAndSerializePhotos
@@ -44,14 +44,14 @@ const photoStorageSlice = createSlice({
         })
         .addCase(subscribeCommonPhotos.fulfilled, (state, action) => {
           state.isLoadingCommonPhotos = false;
-          state.commonPhotos = sortAndSerializePhotos(action.payload);
+          state.commonPhotos = action.payload;
         })
         .addCase(subscribeUserPhotos.pending, (state, action) => {
           state.isLoadingUserPhotos = true;
         })
         .addCase(subscribeUserPhotos.fulfilled, (state, action) => {
           state.isLoadingUserPhotos = false;
-          state.userPhotos = sortAndSerializePhotos(action.payload);
+          state.userPhotos = action.payload;
         })
   }
 })
@@ -73,17 +73,18 @@ export const deletePhoto = createAsyncThunk(
 export const subscribeCommonPhotos = createAsyncThunk(
     'photoStorage/subscribeCommonPhotos',
 
-    async ({setUrlImages, urlImages}, dispatch) => {
+    async ({setUrlImages, urlImages}) => {
       await snapshotCommonPhotos('subscribe', setUrlImages, urlImages);
-      return urlImages;
+
+      return sortAndSerializePhotos(urlImages);
     }
 )
 export const subscribeUserPhotos = createAsyncThunk(
     'photoStorage/subscribeUserPhotos',
 
-    async ({user, setUrlImages, urlImages}, dispatch) => {
+    async ({user, setUrlImages, urlImages}) => {
       await snapshotUserPhotos('subscribe', user, setUrlImages, urlImages);
-      return urlImages;
+      return sortAndSerializePhotos(urlImages);
     }
 )
 export const unsubscribeUserPhotos = (user) => (dispatch) => {
