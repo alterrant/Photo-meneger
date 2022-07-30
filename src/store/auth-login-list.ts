@@ -8,10 +8,10 @@ const loginListSlice = createSlice({
   name: 'loginList',
   initialState,
   reducers: {
-    setEmailPassLogin(state, action) {
+    setEmailPassLogin(state) {
       state.authLogin = "signInEmailPass";
     },
-    setSignUp(state, action) {
+    setSignUp(state) {
       state.authLogin = "signUp";
     }
   }

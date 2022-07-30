@@ -1,5 +1,12 @@
-export const validate = values => {
-  const errors = {};
+type ValidateTypes = {
+  email?: string;
+  password?: string;
+  repeatedPassword?: string;
+}
+type ErrorsTypes = ValidateTypes & {};
+
+export const validate = (values: ValidateTypes) => {
+  const errors = {} as ErrorsTypes;
 
   if (!values.email) {
     errors.email = "Field is empty";
@@ -14,4 +21,4 @@ export const validate = values => {
   } else if (values.repeatedPassword !== values.password) errors.repeatedPassword = "Password mismatch"
 
   return errors;
-}
+};

@@ -1,16 +1,17 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from "react-redux";
-import {logIn} from "../../../redux/auth-reducer";
+import {logIn} from "../../../store/auth";
 import {logInGitHub, logInGoogle, signIn} from "../../../firebase/auth";
 import GitHubSVG from "../../assets/svg/github";
 import {motion} from "framer-motion";
 import {inputLoginForm} from "../../common/form-control/input";
 import {validate} from "../../common/form-control/validators";
+import {useAppDispatch} from "../../../hooks";
 
-const SignInForm = (props) => {
+const SignInForm = (props: any) => {
 
-  const signInFunc = ({email, password}) => {
+  const signInFunc = ({email, password}: any) => {
     props.logIn({email, password});
   }
 
@@ -84,4 +85,4 @@ const SignInFormRedux = reduxForm({
   validate
 })(SignInForm)
 
-export default connect(null, {logIn})(SignInFormRedux);
+export default connect(null, {logIn})(SignInFormRedux) as any;

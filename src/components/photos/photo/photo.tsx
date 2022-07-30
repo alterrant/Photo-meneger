@@ -1,12 +1,12 @@
 import {motion} from "framer-motion";
 import CloseSvgContainer from "./close-svg-container";
-import {useSelector} from "react-redux";
+import {useAppSelector} from "../../../hooks";
 
-export const Photo = ({setSelectedPhoto, photos}) => {
+export const Photo = ({setSelectedPhoto, photos}: any) => {
 
-  const isLookingMyPhotos = useSelector(state => state.photoStorage.isLookingMyPhotos);
+  const isLookingMyPhotos = useAppSelector(state => state.photoStorage.isLookingMyPhotos);
 
-  const photoLists = photos.map(item => {
+  const photoLists = photos.map((item: any) => {
 
     return <motion.li
         className='image-wrapper'

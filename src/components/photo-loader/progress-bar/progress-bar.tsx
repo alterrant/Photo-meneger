@@ -1,9 +1,12 @@
 import {useEffect, useState} from "react";
 import {motion} from "framer-motion";
 import {connect} from "react-redux";
-import {addNewPhoto} from "../../../redux/photo-storage";
+import {addNewPhoto} from "../../../store/photo-storage";
+import {useAppSelector} from "../../../hooks";
 
-const ProgressBar = ({file, setFile, userId, addNewPhoto}) => {
+const ProgressBar = ({file, setFile, addNewPhoto}: any) => {
+
+  const userId = useAppSelector(state => state.auth.authUserProfile.uid);
 
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
@@ -23,10 +26,4 @@ const ProgressBar = ({file, setFile, userId, addNewPhoto}) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userId: state.auth.authUserProfile.uid
-  }
-}
-
-export default connect(mapStateToProps, {addNewPhoto})(ProgressBar);
+export default connect(null, {addNewPhoto})(ProgressBar);

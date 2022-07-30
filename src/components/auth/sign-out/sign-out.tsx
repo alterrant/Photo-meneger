@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
-import {loggingOut} from "../../../redux/auth-reducer";
+import {loggingOut} from "../../../store/auth";
 import {motion} from "framer-motion";
 
 const LogOut = () => {

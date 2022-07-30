@@ -1,16 +1,16 @@
-import './app.css';
 import {useEffect} from "react";
 import Auth from "./components/auth/auth";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import {useDispatch, useSelector} from "react-redux";
-import {initialize} from "./redux/initialise-app"
+import {initialize} from "./store/initialise-app"
 import Preloader from "./components/common/preloader/preloader";
 import App from "./app";
+import './app.css';
+import {useAppDispatch, useAppSelector} from "./hooks";
 
-function AppContainer () {
-  const dispatch = useDispatch();
-  const isAuth = useSelector(state => state.auth.isAuth);
-  const isInit = useSelector(state => state.initialiseApp.isInitialized);
+export const AppContainer = () => {
+  const dispatch = useAppDispatch();
+  const isAuth = useAppSelector(state => state.auth.isAuth);
+  const isInit = useAppSelector(state => state.initialiseApp.isInitialized);
 
   useEffect(() => {
     const auth = getAuth();
@@ -33,6 +33,4 @@ function AppContainer () {
             <Auth/>}
       </>
   );
-}
-
-export default AppContainer;
+};

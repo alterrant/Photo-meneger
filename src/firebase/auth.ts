@@ -22,7 +22,7 @@ export const logInGoogle = async () => {
   await signInWithRedirect(auth, providerGoogle);
 };
 
-export const signIn = async ({email, password}) => {
+export const signIn = async ({email, password}: any) => {
   try {
     const auth = getAuth();
 
@@ -31,7 +31,7 @@ export const signIn = async ({email, password}) => {
 
     return signedInUser;
 
-  } catch (error) {
+  } catch (error: any) {
 
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -39,14 +39,14 @@ export const signIn = async ({email, password}) => {
   }
 }
 
-export const signUpRequest = async ({email, password}) => {
-  const signedUpInfo = {};
+export const signUpRequest = async ({email, password}: any) => {
+  const signedUpInfo: any = {};
   try {
     const auth = getAuth();
 
     const signUpUser = await createUserWithEmailAndPassword(auth, email, password);
     signedUpInfo.signedUpUser = signUpUser.user;
-  } catch (error) {
+  } catch (error: any) {
     signedUpInfo.error = {};
     signedUpInfo.error.errorCode = error.code;
     signedUpInfo.error.errorMessage = error.message;
@@ -65,7 +65,7 @@ export const logOutRequest = async () => {
 }
 
 //Getting profile info
-export const authUserProfile = (auth) => {
+export const authUserProfile = (auth: any) => {
 
   const user = auth.currentUser;
 
@@ -80,8 +80,8 @@ export const authUserProfile = (auth) => {
   }
 }
 
-export const createUserProfile = (user) => {
-  const userProfile = {};
+export const createUserProfile = (user: any) => {
+  const userProfile: any = {};
 
   const {
     uid,

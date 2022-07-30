@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import {Provider} from "react-redux";
 import {BrowserRouter} from "react-router-dom";
-import AppContainer from "./app-container";
-import store from "./redux/store";
+import { store } from "./store";
+
+import {AppContainer} from "./app-container";
+
+import './index.css';
 
 ReactDOM.render(
     <React.StrictMode>

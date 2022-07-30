@@ -59,21 +59,21 @@ const photoStorageSlice = createSlice({
 export const addNewPhoto = createAsyncThunk(
     'photoStorage/addNewPhoto',
 
-    async (props) => {
+    async (props: any) => {
       return await addUserPhoto(props);
     }
 )
 export const deletePhoto = createAsyncThunk(
     'photoStorage/deletePhoto',
 
-    async (props) => {
+    async (props: any) => {
       return await deletePhotos(props);
     }
 )
 export const subscribeCommonPhotos = createAsyncThunk(
     'photoStorage/subscribeCommonPhotos',
 
-    async ({setUrlImages, urlImages}) => {
+    async ({setUrlImages, urlImages}: any) => {
       await snapshotCommonPhotos('subscribe', setUrlImages, urlImages);
 
       return sortAndSerializePhotos(urlImages);
@@ -82,12 +82,12 @@ export const subscribeCommonPhotos = createAsyncThunk(
 export const subscribeUserPhotos = createAsyncThunk(
     'photoStorage/subscribeUserPhotos',
 
-    async ({user, setUrlImages, urlImages}) => {
+    async ({user, setUrlImages, urlImages}: any) => {
       await snapshotUserPhotos('subscribe', user, setUrlImages, urlImages);
       return sortAndSerializePhotos(urlImages);
     }
 )
-export const unsubscribeUserPhotos = (user) => () => {
+export const unsubscribeUserPhotos = (user: any) => () => {
   snapshotUserPhotos('unSubscribe', user);
 }
 export const unsubscribeCommonPhotos = () => () => {

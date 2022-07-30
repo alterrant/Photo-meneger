@@ -1,11 +1,11 @@
 import Switch from "../common/switch/switch";
-import {useDispatch, useSelector} from "react-redux";
-import {setStatusLookingPhotos} from "../../redux/photo-storage";
+import {setStatusLookingPhotos} from "../../store/photo-storage";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 
 const SwitchPhotos = () => {
 
-  const dispatch = useDispatch();
-  const isLookingMyPhotos = useSelector((state) => state.photoStorage.isLookingMyPhotos);
+  const dispatch = useAppDispatch();
+  const isLookingMyPhotos = useAppSelector((state) => state.photoStorage.isLookingMyPhotos);
 
   return (
       <div className="switchPhotosWrapper">

@@ -4,12 +4,13 @@ import Photos from "../photos/photos";
 import {SelectedPhoto} from "../selected-photo/selected-photo";
 import {useState} from "react";
 
-const UserPhotos = ({selectedPhoto}) => {
+const UserPhotos = ({selectedPhoto}: any) => {
 
   return (
       <>
           <UserTitile/>
-          <PhotoLoader fill={"#8A2BE2"} stroke={"#8A2BE2"}/>
+          {/*<PhotoLoader fill={"#8A2BE2"} stroke={"#8A2BE2"}/>*/}
+          <PhotoLoader />
           <Photos setSelectedPhoto={selectedPhoto.setSelectedPhoto}/>
           {selectedPhoto.selectedPhoto && <SelectedPhoto selectedPhoto={selectedPhoto.selectedPhoto} setSelectedPhoto={selectedPhoto.setSelectedPhoto}/>}
 

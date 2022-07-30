@@ -1,17 +1,17 @@
 import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
 import {
   subscribeCommonPhotos,
   subscribeUserPhotos,
   unsubscribeCommonPhotos,
   unsubscribeUserPhotos
-} from "../redux/photo-storage";
+} from "../store/photo-storage";
+import {useAppDispatch, useAppSelector} from "./index";
 
 export const useFirestoreGetUserImages = () => {
 
-  const dispatch = useDispatch();
-  const userPhotos = useSelector(state => state.photoStorage.userPhotos);
-  const authUserId = useSelector(state => state.auth.authUserProfile.uid);
+  const dispatch = useAppDispatch();
+  const userPhotos = useAppSelector(state => state.photoStorage.userPhotos);
+  const authUserId = useAppSelector(state => state.auth.authUserProfile.uid);
 
   const [urlImages, setUrlImages] = useState([]);
   const user = `user_${authUserId}`;
@@ -26,8 +26,8 @@ export const useFirestoreGetUserImages = () => {
 
 export const useFirestoreGetAllImages = () => {
 
-  const dispatch = useDispatch();
-  const commonPhotos = useSelector(state => state.photoStorage.commonPhotos);
+  const dispatch = useAppDispatch();
+  const commonPhotos = useAppSelector(state => state.photoStorage.commonPhotos);
   const [urlImages, setUrlImages] = useState([]);
 
   useEffect(() => {

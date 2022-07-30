@@ -5,11 +5,11 @@ import ProgressBar from "./progress-bar/progress-bar";
 
 export const PhotoLoader = () => {
 
-  const [file, setFile] = useState(null);
-  const [error, setError] = useState(null);
+  const [file, setFile] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
   const allowedTypes = ["image/png", "image/jpeg"];
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const selectFile = e.target.files[0];
 
     if (selectFile && allowedTypes.includes(selectFile.type)) {

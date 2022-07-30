@@ -1,6 +1,6 @@
 import SwitchStyle from "./switch.module.css"
 
-const Switch = ({isOn, handleToggle, onColor}) => {
+const Switch = ({isOn, handleToggle, onColor}: any) => {
   return (
       <>
         <input

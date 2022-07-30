@@ -3,7 +3,7 @@ import {Photo} from "./photo/photo";
 import {useFirestoreGetUserImages} from "../../hooks/useFirestore";
 
 
-const Photos = (props) => {
+const Photos = (props: any) => {
   const isOnePhoto = 'one-photo-grid';
   const isTwoPhoto = 'two-photo-grid';
   let styleWrapperPhotos;

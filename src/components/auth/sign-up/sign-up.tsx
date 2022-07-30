@@ -4,9 +4,9 @@ import {motion} from "framer-motion";
 import {inputLoginForm} from "../../common/form-control/input";
 import {validate} from "../../common/form-control/validators";
 import {connect} from "react-redux";
-import {signUp} from "../../../redux/auth-reducer";
+import {signUp} from "../../../store/auth";
 
-const SignUpForm = (props) => {
+const SignUpForm = (props: any) => {
 
   return (<>
         <form className="auth-form-container" onSubmit={props.handleSubmit(props.signUp)}>
@@ -61,4 +61,4 @@ const SignUpFormRedux = reduxForm({
   validate,
 })(SignUpForm)
 
-export default connect(null, {signUp})(SignUpFormRedux);
+export default connect(null, {signUp})(SignUpFormRedux) as any;

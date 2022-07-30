@@ -4,7 +4,7 @@ import React from "react";
 import UserTitile from "../main/user-titile/user-titile";
 import {SelectedPhoto} from "../selected-photo/selected-photo";
 
-const CommonPhotos = ({selectedPhoto}) => {
+const CommonPhotos = ({selectedPhoto}: any) => {
   const isOnePhoto = 'one-photo-grid';
   const isTwoPhoto = 'two-photo-grid';
   let styleWrapperPhotos;

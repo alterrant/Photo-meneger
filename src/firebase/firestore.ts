@@ -1,9 +1,9 @@
 import {deleteObject, getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
-import {projectFirestore, storage} from '../firebase/config';
+import {projectFirestore, storage} from './config';
 import {addDoc, collection, deleteDoc, doc, onSnapshot, serverTimestamp, setDoc} from "firebase/firestore";
 
 
-export const addUserPhoto = async ({userId, file, setProgress, setError, setUrl}) => {
+export const addUserPhoto = async ({userId, file, setProgress, setError, setUrl}: any) => {
   const storageRef = ref(storage, `user_${userId}`);
   const storageNewRef = ref(storageRef, file.name)
   const timestamp = serverTimestamp();
@@ -38,14 +38,14 @@ export const addUserPhoto = async ({userId, file, setProgress, setError, setUrl}
   return 'newPhotoAdded'
 }
 
-export const deletePhotos = async ({userId, imageName, imageFirebaseId}) => {
+export const deletePhotos = async ({userId, imageName, imageFirebaseId}: any) => {
   await deleteUserPhoto({userId, imageName, imageFirebaseId});
   await deleteCommonPhoto({imageFirebaseId});
 
   return 'delettingPhotoSuccess'
 }
 
-const deleteUserPhoto = ({userId, imageName, imageFirebaseId}) => {
+const deleteUserPhoto = ({userId, imageName, imageFirebaseId}: any) => {
   const userPhotosRef = ref(storage, `user_${userId}/${imageName}`)
 //удаляем из fireStore
   deleteObject(userPhotosRef).then(() => {
@@ -57,16 +57,16 @@ const deleteUserPhoto = ({userId, imageName, imageFirebaseId}) => {
   deleteDoc(doc(projectFirestore, `user_${userId}`, `${imageFirebaseId}`));
 }
 
-const deleteCommonPhoto = ({imageFirebaseId}) => {
+const deleteCommonPhoto = ({imageFirebaseId}: any) => {
 //удаляем ссылку на файл из общей базы картинок в fireBase
   deleteDoc(doc(projectFirestore, `common_photos`, `${imageFirebaseId}`));
 }
 
-export const snapshotCommonPhotos = async (funcGoal, setUrlImages, urlImages) => {
+export const snapshotCommonPhotos = async (funcGoal: any, setUrlImages: any = null, urlImages: any = null) => {
   //делаем снимок и подписываемся на изменения в коллекции "common_photos"
   onSnapshot(collection(projectFirestore, `common_photos`),
       (querySnapshot) => {
-        const allImagesUrl = [];
+        const allImagesUrl: any = [];
         querySnapshot.forEach((item) => {
           allImagesUrl.push({id: item.id, ...item.data()})
         })
@@ -78,10 +78,10 @@ export const snapshotCommonPhotos = async (funcGoal, setUrlImages, urlImages) =>
   return 'commonPhotosSnapshotSuccess';
 }
 
-export const snapshotUserPhotos = async (funcGoal, user, setUrlImages, urlImages) => {
+export const snapshotUserPhotos = async (funcGoal: any, user: any, setUrlImages: any = null, urlImages: any = null) => {
   onSnapshot(collection(projectFirestore, user),
       (querySnapshot) => {
-        const allImagesUrl = [];
+        const allImagesUrl: any = [];
         querySnapshot.forEach((item) => {
           allImagesUrl.push({id: item.id, ...item.data()})
         })
@@ -93,19 +93,19 @@ export const snapshotUserPhotos = async (funcGoal, user, setUrlImages, urlImages
   return 'userPhotosSnapshotSuccess'
 }
 
-export const sortAndSerializePhotos = (photosArray) => {
+export const sortAndSerializePhotos = (photosArray: any) => {
   const serializedPhotos = serializeSnapshotPhotos(photosArray);
   return sortPhotos(serializedPhotos);
 
 };
 
-const serializeSnapshotPhotos = (nonSerializePhotos) => {
+const serializeSnapshotPhotos = (nonSerializePhotos: any) => {
   return [...nonSerializePhotos].map(item => {
     return {...item, addedTime: {...item.addedTime}};
   });
 }
-const sortPhotos = (photos) => {
-  return photos.sort((a, b) => {
+const sortPhotos = (photos: any) => {
+  return photos.sort((a: any, b:any) => {
     if (b.addedTime && a.addedTime) return b.addedTime.seconds - a.addedTime.seconds;
   })
 }

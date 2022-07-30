@@ -1,12 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {setAuthProfile} from "./auth-reducer";
+import {setAuthProfile} from "./auth";
 import {createUserProfile} from "../firebase/auth";
 
 const initialState = {
   isInitialized: false
 }
 
-export const initialize = (currentUser) => (dispatch) => {
+export const initialize: any = (currentUser: any) => (dispatch: any) => {
   if (currentUser) {
     const userProfile = createUserProfile(currentUser);
 
