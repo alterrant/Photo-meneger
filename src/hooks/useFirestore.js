@@ -5,7 +5,7 @@ import {
   subscribeUserPhotos,
   unsubscribeCommonPhotos,
   unsubscribeUserPhotos
-} from "../redux/photoStorage";
+} from "../redux/photo-storage";
 
 export const useFirestoreGetUserImages = () => {
 

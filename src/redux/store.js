@@ -1,6 +1,6 @@
-import initialiseAppReducer from "./initialiseApp";
-import authReducer from "./authReducer";
-import photoStorageReducer from "./photoStorage";
+import initialiseAppReducer from "./initialise-app";
+import authReducer from "./auth-reducer";
+import photoStorageReducer from "./photo-storage";
 import {reducer as formReducer} from "redux-form";
 import {configureStore} from "@reduxjs/toolkit";
 
