@@ -49,7 +49,7 @@ const deleteUserPhoto = ({userId, imageName, imageFirebaseId}) => {
   const userPhotosRef = ref(storage, `user_${userId}/${imageName}`)
 //удаляем из fireStore
   deleteObject(userPhotosRef).then(() => {
-    console.log("Photo has been deleted: ")
+    console.log("photo has been deleted: ")
   }).catch((error) => {
     console.log("Error deleting photo: ", error)
   });
